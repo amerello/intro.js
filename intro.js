@@ -409,6 +409,9 @@
       var nextTooltipButton = document.createElement('a');
 
       nextTooltipButton.onclick = function() {
+        if (typeof (self._introNextCallback) !== 'undefined') {
+          self._introNextCallback.call(self, self._currentStep + 1);
+        }
         if(self._introItems.length - 1 != self._currentStep) {
           _nextStep.call(self);
         }
@@ -724,6 +727,14 @@
         this._introBeforeChangeCallback = providedCallback;
       } else {
         throw new Error('Provided callback for onbeforechange was not a function');
+      }
+      return this;
+    },
+    onnext: function(providedCallback) {
+        if (typeof (providedCallback) === 'function') {
+        this._introNextCallback = providedCallback;
+      } else {
+        throw new Error('Provided callback for onnext was not a function.');
       }
       return this;
     },
